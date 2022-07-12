@@ -22,6 +22,8 @@ dependencies {
     implementation 'org.springframework.cloud:spring-cloud-stream'
     runtimeOnly 'com.h2database:h2'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework:spring-webflux'
+    testImplementation 'io.projectreactor.netty:reactor-netty-http'
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
