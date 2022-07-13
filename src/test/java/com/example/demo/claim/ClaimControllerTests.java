@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.claim;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,9 +12,14 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
@@ -36,10 +41,13 @@ public class ClaimControllerTests {
     public void submitClaimShouldCallRepositorySaveAndReturnStatusOk() throws Exception {
         ClaimData data = new ClaimData("XXXXXX", "YYYYYY", "the claim amount is 2000USD!");
         String json = new ObjectMapper().writeValueAsString(data);
+        when(claimRepository.save(any())).thenReturn(new Claim(1L, "XXXXXX", "YYYYYY", "message"));
 
         mockMvc.perform(post("/claims")
                         .contentType(MediaType.APPLICATION_JSON).content(json))
-                .andExpect(status().isOk());
+                .andDo(print())
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.id", notNullValue()));
 
         ArgumentCaptor<Claim> entity = ArgumentCaptor.forClass(Claim.class);
         verify(claimRepository).save(entity.capture());

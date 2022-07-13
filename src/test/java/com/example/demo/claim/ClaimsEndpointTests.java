@@ -1,9 +1,10 @@
-package com.example.demo;
+package com.example.demo.claim;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.test.web.servlet.client.MockMvcWebTestClient;
@@ -15,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(SpringExtension.class)
+@SpringBootTest
 public class ClaimsEndpointTests {
 
     @Autowired
@@ -31,8 +33,8 @@ public class ClaimsEndpointTests {
 
         client.post().uri("/claims").body(Mono.just(data), ClaimData.class)
                 .exchange()
-                .expectStatus().isOk()
-                .expectBody().isEmpty();
+                .expectStatus().isCreated()
+                .expectBody().jsonPath("$.id").isNumber();
 
         List<Claim> found = claimRepository.findBySender("XXXXXX");
         assertTrue(found.size() > 0);

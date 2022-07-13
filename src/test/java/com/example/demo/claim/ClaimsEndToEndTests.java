@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.claim;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,6 +15,7 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Mono;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -39,15 +40,17 @@ public class ClaimsEndToEndTests {
 
         client.post().uri("/claims").body(Mono.just(data), ClaimData.class)
                 .exchange()
-                .expectStatus().isOk()
-                .expectBody().isEmpty();
+                .expectStatus().isCreated()
+                .expectBody().jsonPath("$.id").exists();
     }
 
     @Test
     public void submitClaimsWithRestTemplateShouldSaveData() {
         ClaimData data = new ClaimData("XXXXXX", "YYYYYY", "the claim amount is 2000USD!");
-        HttpEntity<ClaimData> request = new HttpEntity<>(data);
-        ResponseEntity<Void> result = restTemplate.postForEntity(url + "/claims", data, Void.class);
-        assertEquals(result.getStatusCode(), HttpStatus.OK);
+
+        ResponseEntity<Claim> result = restTemplate.postForEntity(url + "/claims", data, Claim.class);
+
+        assertEquals(result.getStatusCode(), HttpStatus.CREATED);
+        assertTrue(result.getBody().getId() > 0);
     }
 }
