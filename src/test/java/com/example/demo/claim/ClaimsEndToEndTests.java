@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -27,16 +26,17 @@ public class ClaimsEndToEndTests {
 
     @Autowired
     private TestRestTemplate restTemplate;
+    WebTestClient client;
 
     @BeforeEach
     public void setUp() {
         url = "http://localhost:" + port;
+        client = WebTestClient.bindToServer().baseUrl(url).build();
     }
 
     @Test
     public void submitClaimsShouldSaveData() {
         ClaimData data = new ClaimData("XXXXXX", "YYYYYY", "the claim amount is 2000USD!");
-        WebTestClient client = WebTestClient.bindToServer().baseUrl(url).build();
 
         client.post().uri("/claims").body(Mono.just(data), ClaimData.class)
                 .exchange()

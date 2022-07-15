@@ -1,6 +1,6 @@
 package com.example.demo.claim;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +25,21 @@ public class ClaimsEndpointTests {
     @Autowired
     private ClaimRepository claimRepository;
 
+    @Autowired
+    ClaimExceptionHandler claimExceptionHandler;
+
+    WebTestClient client;
+
+    @BeforeEach
+    public void before() {
+        ClaimExceptionHandler claimExceptionHandler = new ClaimExceptionHandler();
+        client = MockMvcWebTestClient.bindToController(claimController, claimExceptionHandler).build();
+    }
+
     @Test
-    public void submitClaimShouldSaveToDb() throws JsonProcessingException {
+    public void submitClaimShouldSaveToDb() {
         ClaimData data = new ClaimData("XXXXXX", "YYYYYY", "the claim amount is 2000USD!");
 
-        WebTestClient client = MockMvcWebTestClient.bindToController(claimController).build();
 
         client.post().uri("/claims").body(Mono.just(data), ClaimData.class)
                 .exchange()
@@ -39,5 +49,10 @@ public class ClaimsEndpointTests {
         List<Claim> found = claimRepository.findBySender("XXXXXX");
         assertTrue(found.size() > 0);
         assertEquals(found.get(0).getReceiver(), "YYYYYY");
+    }
+
+    @Test
+    public void sendClaimMessageNotExistsShouldReturnNotFound() {
+        client.put().uri("/claims/404/send").exchange().expectStatus().isNotFound();
     }
 }
