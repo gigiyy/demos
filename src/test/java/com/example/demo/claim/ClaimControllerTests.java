@@ -15,7 +15,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.Optional;
 
-import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
@@ -57,7 +56,7 @@ public class ClaimControllerTests {
                         .contentType(MediaType.APPLICATION_JSON).content(json))
                 .andDo(print())
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.id", notNullValue()));
+                .andExpect(jsonPath("$.id").isNumber());
 
         ArgumentCaptor<Claim> entity = ArgumentCaptor.forClass(Claim.class);
         verify(claimRepository).save(entity.capture());
