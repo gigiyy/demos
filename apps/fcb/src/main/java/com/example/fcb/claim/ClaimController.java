@@ -1,49 +1,34 @@
 package com.example.fcb.claim;
 
-import com.example.fcb.claim.error.ClaimNotFoundException;
-import com.example.fcb.request.ClaimRequest;
+import com.example.fcb.claim.service.Claim;
+import com.example.fcb.claim.service.ClaimData;
+import com.example.fcb.claim.service.ClaimService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/claims")
 public class ClaimController {
 
-    private final ClaimRepository claimRepository;
-    private final ClaimRequest claimRequest;
+    private final ClaimService service;
 
-    private final ForexClient forexClient;
-
-    public ClaimController(ClaimRepository claimRepository, ClaimRequest claimRequest, ForexClient forexClient) {
-        this.claimRepository = claimRepository;
-        this.claimRequest = claimRequest;
-        this.forexClient = forexClient;
+    public ClaimController(ClaimService service) {
+        this.service = service;
     }
 
     @GetMapping
     ClaimData getClaimData(@RequestParam String seqNo) {
-        ForexRate rate = forexClient.getRateFor("eur");
-        String message = "Currency: " + rate.getCurrency().toUpperCase() + ", Rate: " + rate.getToTwd();
-        return ClaimData.builder().sender("FCB").receiver("MIZUHO").message(message).build();
+        return service.getClaimdata(seqNo);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     Claim submitClaim(@RequestBody ClaimData claimData) {
-        return claimRepository.save(claimData.toClaim());
+        return service.saveClaimData(claimData);
     }
 
     @PutMapping("/{id}/send")
     void sendClaim(@PathVariable Long id) {
-        Optional<Claim> found = claimRepository.findById(id);
-        if (found.isEmpty()) {
-            throw new ClaimNotFoundException(String.format("Claim message with id %s not found", id));
-        }
-        found.map((Claim claim) -> {
-            claimRequest.send(claim);
-            return null;
-        });
+        service.sendClaim(id);
     }
 }

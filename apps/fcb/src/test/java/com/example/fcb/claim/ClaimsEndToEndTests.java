@@ -1,5 +1,7 @@
 package com.example.fcb.claim;
 
+import com.example.fcb.claim.service.Claim;
+import com.example.fcb.claim.service.ClaimData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

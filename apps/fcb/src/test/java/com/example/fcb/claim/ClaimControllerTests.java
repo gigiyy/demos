@@ -2,6 +2,10 @@ package com.example.fcb.claim;
 
 import com.example.fcb.claim.error.ClaimExceptionHandler;
 import com.example.fcb.claim.error.ClaimNotFoundException;
+import com.example.fcb.claim.service.Claim;
+import com.example.fcb.claim.service.ClaimData;
+import com.example.fcb.claim.service.ClaimRepository;
+import com.example.fcb.claim.service.ClaimService;
 import com.example.fcb.request.ClaimRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,19 +36,20 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class ClaimControllerTests {
     private MockMvc mockMvc;
 
-    @InjectMocks
-    private ClaimController claimController;
-
     @Mock
     private ClaimRepository claimRepository;
 
     @Mock
     private ClaimRequest claimRequest;
 
+    @InjectMocks
+    ClaimService service;
+
     @BeforeEach
     public void setUp() {
         // RestControllerAdvice classes should also be included otherwise it would take effect when testing
         ClaimExceptionHandler claimExceptionHandler = new ClaimExceptionHandler();
+        ClaimController claimController = new ClaimController(service);
         mockMvc = MockMvcBuilders.standaloneSetup(claimController, claimExceptionHandler).build();
     }
 

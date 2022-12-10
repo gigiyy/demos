@@ -1,6 +1,9 @@
 package com.example.fcb.claim;
 
 import com.example.fcb.claim.error.ClaimExceptionHandler;
+import com.example.fcb.claim.service.Claim;
+import com.example.fcb.claim.service.ClaimData;
+import com.example.fcb.claim.service.ClaimRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

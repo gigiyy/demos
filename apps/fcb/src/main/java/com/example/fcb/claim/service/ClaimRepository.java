@@ -1,4 +1,4 @@
-package com.example.fcb.claim;
+package com.example.fcb.claim.service;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
