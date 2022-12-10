@@ -1,3 +1,7 @@
 spring:
   application:
     name: FCB Demo
+
+servers:
+  forex:
+    url: http://localhost:8081

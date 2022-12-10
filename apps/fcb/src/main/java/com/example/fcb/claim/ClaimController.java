@@ -13,9 +13,19 @@ public class ClaimController {
     private final ClaimRepository claimRepository;
     private final ClaimRequest claimRequest;
 
-    public ClaimController(ClaimRepository claimRepository, ClaimRequest claimRequest) {
+    private final ForexClient forexClient;
+
+    public ClaimController(ClaimRepository claimRepository, ClaimRequest claimRequest, ForexClient forexClient) {
         this.claimRepository = claimRepository;
         this.claimRequest = claimRequest;
+        this.forexClient = forexClient;
+    }
+
+    @GetMapping
+    ClaimData getClaimData(@RequestParam String seqNo) {
+        ForexRate rate = forexClient.getRateFor("eur");
+        String message = "Currency: " + rate.getCurrency().toUpperCase() + ", Rate: " + rate.getToTwd();
+        return ClaimData.builder().sender("FCB").receiver("MIZUHO").message(message).build();
     }
 
     @PostMapping

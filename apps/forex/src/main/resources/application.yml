@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: FCB Forex
+
+server:
+  port: 8081

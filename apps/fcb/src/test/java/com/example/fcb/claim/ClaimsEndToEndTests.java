@@ -7,17 +7,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Mono;
 
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
+import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@AutoConfigureWireMock(port = 8082)
 public class ClaimsEndToEndTests {
     @LocalServerPort
     private int port;
@@ -52,5 +56,25 @@ public class ClaimsEndToEndTests {
 
         assertEquals(result.getStatusCode(), HttpStatus.CREATED);
         assertTrue(result.getBody().getId() > 0);
+    }
+
+
+    @Test
+    public void getClaimShouldReturnClaimData() throws Exception {
+        stubFor(get("/forex/eur").willReturn(aResponse()
+                .withHeader("Content-type", "application/json")
+                .withBody(
+                        // language=json
+                        """
+                                {
+                                    "currency": "eur",
+                                    "toTwd":45.3,
+                                    "toUsd":1.2
+                                }"""
+                )));
+        client.get().uri(uriBuilder -> uriBuilder.path("claims").queryParam("seqNo", "abc").build())
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody().jsonPath("$.message").value(containsString("Currency: EUR, Rate: 45.3"));
     }
 }
