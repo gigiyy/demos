@@ -1,4 +1,5 @@
-rootProject.name = 'demo-projects'
+rootProject.name = 'demos'
 include 'apps:fcb'
 include 'apps:forex'
 include 'apps:rdemo'
+include 'apps:kdemo'
