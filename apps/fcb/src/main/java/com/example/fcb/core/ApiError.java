@@ -1,4 +1,4 @@
-package com.example.fcb.claim;
+package com.example.fcb.core;
 
 
 import lombok.AllArgsConstructor;

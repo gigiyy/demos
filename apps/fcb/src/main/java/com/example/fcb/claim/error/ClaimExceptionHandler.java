@@ -1,5 +1,6 @@
-package com.example.fcb.claim;
+package com.example.fcb.claim.error;
 
+import com.example.fcb.core.ApiError;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;

@@ -1,5 +1,6 @@
 package com.example.fcb.claim;
 
+import com.example.fcb.claim.error.ClaimNotFoundException;
 import com.example.fcb.request.ClaimRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
