@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    ## default connection pool
+    hikari:
+      connectionTimeout: 20000
+      maximumPoolSize: 5
+    ## PostgreSQL
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: password
+    ## initialize data with data.sql
+    # initialization-mode: always
+  #drop n create table again, good for testing, comment this in production
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        dialet: org.hibernate.dialet.PostgreSQLDialet
