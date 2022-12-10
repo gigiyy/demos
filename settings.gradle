@@ -1,2 +1,4 @@
 rootProject.name = 'demo-projects'
-include 'apps:demo'
+include 'apps:fcb'
+include 'apps:forex'
+include 'apps:rdemo'
