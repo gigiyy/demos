@@ -1,0 +1,33 @@
+pipeline {
+
+    agent {
+        docker {
+            args '-v /tmp:/tmp'
+            image 'gradle:5.6.2-jdk11'
+        }
+    }
+
+    triggers {
+        cron('H */8 * * *') //regular builds
+        pollSCM('* * * * *') //polling for changes, here once a minute
+    }
+
+    stages {
+        stage('Checkout') {
+            steps { //Checking out the repo
+                checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/gigiyy/demo.git']]])
+            }
+        }
+        stage('Unit & Integration Tests') {
+            steps {
+                script {
+                    try {
+                        sh './gradlew clean test --no-daemon' //run a gradle task
+                    } finally {
+                        junit '**/build/test-results/test/*.xml' //make the junit test results available in any case (success & failure)
+                    }
+                }
+            }
+        }
+    }
+}
