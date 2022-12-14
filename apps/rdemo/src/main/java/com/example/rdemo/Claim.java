@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class Claim {
+
     private Long id;
     private String sender;
     private String receiver;

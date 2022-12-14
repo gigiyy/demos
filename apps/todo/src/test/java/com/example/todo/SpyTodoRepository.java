@@ -1,16 +1,16 @@
 package com.example.todo;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.function.Function;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.query.FluentQuery;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.function.Function;
-
 public class SpyTodoRepository implements TodoRepository {
+
     private boolean findAllIsCalled;
     private List<Todo> findAll_returnValue;
     private Todo save_paramValue;
@@ -169,7 +169,8 @@ public class SpyTodoRepository implements TodoRepository {
     }
 
     @Override
-    public <S extends Todo, R> R findBy(Example<S> example, Function<FluentQuery.FetchableFluentQuery<S>, R> queryFunction) {
+    public <S extends Todo, R> R findBy(Example<S> example,
+        Function<FluentQuery.FetchableFluentQuery<S>, R> queryFunction) {
         return null;
     }
 

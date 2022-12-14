@@ -1,26 +1,5 @@
 package com.example.fcb.claim;
 
-import com.example.fcb.claim.error.ClaimExceptionHandler;
-import com.example.fcb.claim.error.ClaimNotFoundException;
-import com.example.fcb.claim.service.Claim;
-import com.example.fcb.claim.service.ClaimData;
-import com.example.fcb.claim.service.ClaimRepository;
-import com.example.fcb.claim.service.ClaimService;
-import com.example.fcb.request.ClaimRequest;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-
-import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
@@ -32,18 +11,36 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.example.fcb.claim.error.ClaimExceptionHandler;
+import com.example.fcb.claim.error.ClaimNotFoundException;
+import com.example.fcb.claim.service.Claim;
+import com.example.fcb.claim.service.ClaimData;
+import com.example.fcb.claim.service.ClaimRepository;
+import com.example.fcb.claim.service.ClaimService;
+import com.example.fcb.request.ClaimRequest;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.Optional;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
 @ExtendWith(MockitoExtension.class)
 public class ClaimControllerTests {
-    private MockMvc mockMvc;
-
-    @Mock
-    private ClaimRepository claimRepository;
-
-    @Mock
-    private ClaimRequest claimRequest;
 
     @InjectMocks
     ClaimService service;
+    private MockMvc mockMvc;
+    @Mock
+    private ClaimRepository claimRepository;
+    @Mock
+    private ClaimRequest claimRequest;
 
     @BeforeEach
     public void setUp() {
@@ -60,10 +57,10 @@ public class ClaimControllerTests {
         when(claimRepository.save(any())).thenReturn(new Claim(1L, "XXXXXX", "YYYYYY", "message"));
 
         mockMvc.perform(post("/claims")
-                        .contentType(MediaType.APPLICATION_JSON).content(json))
-                .andDo(print())
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.id").isNumber());
+                .contentType(MediaType.APPLICATION_JSON).content(json))
+            .andDo(print())
+            .andExpect(status().isCreated())
+            .andExpect(jsonPath("$.id").isNumber());
 
         ArgumentCaptor<Claim> entity = ArgumentCaptor.forClass(Claim.class);
         verify(claimRepository).save(entity.capture());
@@ -71,12 +68,13 @@ public class ClaimControllerTests {
     }
 
     @Test
-    public void sendClaimMessageShouldFindClaimAndInitiateClaimRequestThenReturnStatusOk() throws Exception {
+    public void sendClaimMessageShouldFindClaimAndInitiateClaimRequestThenReturnStatusOk()
+        throws Exception {
         Claim claim = new Claim(100L, "FCBFCB", "SYSTEX", "claim message content");
         when(claimRepository.findById(100L)).thenReturn(Optional.of(claim));
 
         mockMvc.perform(put("/claims/100/send"))
-                .andExpect(status().isOk());
+            .andExpect(status().isOk());
 
         ArgumentCaptor<Claim> entity = ArgumentCaptor.forClass(Claim.class);
         verify(claimRequest).send(entity.capture());
@@ -87,7 +85,8 @@ public class ClaimControllerTests {
     public void sendClaimMessageNotExistsThrowException() throws Exception {
         when(claimRepository.findById(404L)).thenReturn(Optional.empty());
         mockMvc.perform(put("/claims/404/send"))
-                .andExpect(result -> assertTrue(result.getResolvedException() instanceof ClaimNotFoundException))
-                .andExpect(status().isNotFound());
+            .andExpect(result -> assertTrue(
+                result.getResolvedException() instanceof ClaimNotFoundException))
+            .andExpect(status().isNotFound());
     }
 }

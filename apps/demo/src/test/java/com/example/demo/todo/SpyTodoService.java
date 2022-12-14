@@ -1,7 +1,5 @@
 package com.example.demo.todo;
 
-import org.springframework.test.web.servlet.ResultMatcher;
-
 import java.util.List;
 
 public class SpyTodoService implements TodoService {

@@ -1,6 +1,9 @@
 package com.example.rdemo;
 
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -9,9 +12,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Mono;
-
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class ClaimControllerTests {
@@ -36,9 +36,9 @@ public class ClaimControllerTests {
         when(claimRepository.save(any())).thenReturn(Mono.just(result));
 
         client.post().uri("/claims").bodyValue(data)
-                .exchange()
-                .expectStatus().isCreated()
-                .expectBody().jsonPath("$.id").isNumber();
+            .exchange()
+            .expectStatus().isCreated()
+            .expectBody().jsonPath("$.id").isNumber();
     }
 }
 

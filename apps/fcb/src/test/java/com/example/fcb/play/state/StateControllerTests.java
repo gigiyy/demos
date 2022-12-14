@@ -1,6 +1,10 @@
 package com.example.fcb.play.state;
 
-import com.example.fcb.play.state.StateRequest;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.IntStream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -14,27 +18,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Mono;
 
-import java.util.List;
-import java.util.UUID;
-import java.util.stream.IntStream;
-
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class StateControllerTests {
 
-    private Logger logger = LoggerFactory.getLogger("TestClass");
-
     @LocalServerPort
     int port;
-
     @Autowired
     TestRestTemplate restTemplate;
-
-
     WebTestClient client;
-
     String baseUrl;
+    private Logger logger = LoggerFactory.getLogger("TestClass");
 
     @BeforeEach
     public void initialize() {
@@ -48,7 +41,8 @@ class StateControllerTests {
 
         StateRequest request = new StateRequest("uuid1", "name", "uuid1");
 
-        ResponseEntity<String> response = restTemplate.postForEntity(baseUrl + "/states", request, String.class);
+        ResponseEntity<String> response = restTemplate.postForEntity(baseUrl + "/states", request,
+            String.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
@@ -56,14 +50,14 @@ class StateControllerTests {
     @Test
     public void sendParallelRequests() {
         List<StateRequest> requests = IntStream.rangeClosed(1, 100)
-                .mapToObj(i -> UUID.randomUUID().toString())
-                .parallel()
-                .map(uuid -> new StateRequest(uuid, "abc", uuid))
-                .peek(request -> {
-                    logger.info("sending request with {}", request.getUuid());
-                    client.post().uri("/states").body(Mono.just(request), StateRequest.class)
-                            .exchange().expectStatus().isOk().expectBody(String.class);
-                }).toList();
+            .mapToObj(i -> UUID.randomUUID().toString())
+            .parallel()
+            .map(uuid -> new StateRequest(uuid, "abc", uuid))
+            .peek(request -> {
+                logger.info("sending request with {}", request.getUuid());
+                client.post().uri("/states").body(Mono.just(request), StateRequest.class)
+                    .exchange().expectStatus().isOk().expectBody(String.class);
+            }).toList();
 
         requests.forEach(request -> logger.info(request.toString()));
     }

@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Setter
 @Getter
-class StateCommand extends BaseState{
+class StateCommand extends BaseState {
 
     private String name;
     private String content;

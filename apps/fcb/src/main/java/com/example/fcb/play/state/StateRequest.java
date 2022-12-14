@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 class StateRequest {
+
     private String uuid;
     private String name;
     private String content;

@@ -5,4 +5,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ClaimRepository extends ReactiveCrudRepository<Claim, Long> {
+
 }

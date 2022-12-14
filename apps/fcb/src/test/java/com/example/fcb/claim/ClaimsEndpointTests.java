@@ -1,9 +1,13 @@
 package com.example.fcb.claim;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import com.example.fcb.claim.error.ClaimExceptionHandler;
 import com.example.fcb.claim.service.Claim;
 import com.example.fcb.claim.service.ClaimData;
 import com.example.fcb.claim.service.ClaimRepository;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,41 +18,33 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.test.web.servlet.client.MockMvcWebTestClient;
 import reactor.core.publisher.Mono;
 
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class ClaimsEndpointTests {
 
     @Autowired
+    ClaimExceptionHandler claimExceptionHandler;
+    WebTestClient client;
+    @Autowired
     private ClaimController claimController;
-
     @Autowired
     private ClaimRepository claimRepository;
-
-    @Autowired
-    ClaimExceptionHandler claimExceptionHandler;
-
-    WebTestClient client;
 
     @BeforeEach
     public void before() {
         ClaimExceptionHandler claimExceptionHandler = new ClaimExceptionHandler();
-        client = MockMvcWebTestClient.bindToController(claimController, claimExceptionHandler).build();
+        client = MockMvcWebTestClient.bindToController(claimController, claimExceptionHandler)
+            .build();
     }
 
     @Test
     public void submitClaimShouldSaveToDb() {
         ClaimData data = new ClaimData("XXXXXX", "YYYYYY", "the claim amount is 2000USD!");
 
-
         client.post().uri("/claims").body(Mono.just(data), ClaimData.class)
-                .exchange()
-                .expectStatus().isCreated()
-                .expectBody().jsonPath("$.id").isNumber();
+            .exchange()
+            .expectStatus().isCreated()
+            .expectBody().jsonPath("$.id").isNumber();
 
         List<Claim> found = claimRepository.findBySender("XXXXXX");
         assertTrue(found.size() > 0);

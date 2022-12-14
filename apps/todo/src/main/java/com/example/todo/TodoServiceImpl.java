@@ -1,11 +1,11 @@
 package com.example.todo;
 
-import org.springframework.stereotype.Service;
-
 import java.util.List;
+import org.springframework.stereotype.Service;
 
 @Service
 public class TodoServiceImpl implements TodoService {
+
     private TodoRepository todoRepository;
 
     public TodoServiceImpl(TodoRepository todoRepository) {
@@ -24,6 +24,7 @@ public class TodoServiceImpl implements TodoService {
 
     @Override
     public Todo findTodo(Long id) {
-        return todoRepository.findById(id).orElseThrow(() ->new TodoNotFoundException("todo not found"));
+        return todoRepository.findById(id)
+            .orElseThrow(() -> new TodoNotFoundException("todo not found"));
     }
 }

@@ -1,8 +1,6 @@
 package com.example.todo;
 
-import javax.swing.text.html.Option;
 import java.util.List;
-import java.util.Optional;
 
 public class SpyTodoService implements TodoService {
 
@@ -30,7 +28,9 @@ public class SpyTodoService implements TodoService {
 
     @Override
     public Todo findTodo(Long id) {
-        if (throwNotFoundException) throw new TodoNotFoundException("not found");
+        if (throwNotFoundException) {
+            throw new TodoNotFoundException("not found");
+        }
         findTodo_paramValue = id;
         return findTodo_returnTodo;
     }

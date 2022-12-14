@@ -13,6 +13,7 @@ class StateController {
 
         this.stateService = stateService;
     }
+
     @PostMapping("/states")
     public String saveSate(@RequestBody StateRequest request) {
         stateService.saveSate(request.toCommand());

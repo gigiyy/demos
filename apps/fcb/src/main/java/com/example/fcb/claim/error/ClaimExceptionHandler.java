@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 @Slf4j
 public class ClaimExceptionHandler {
+
     @ExceptionHandler({ClaimNotFoundException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ApiError handleNotFound(ClaimNotFoundException ex) {

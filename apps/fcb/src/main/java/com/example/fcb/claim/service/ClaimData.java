@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ClaimData {
+
     private String sender;
     private String receiver;
     private String message;

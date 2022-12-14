@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 class StateService {
+
     private Logger logger = LoggerFactory.getLogger(StateService.class);
 
     public void saveSate(StateCommand command) {

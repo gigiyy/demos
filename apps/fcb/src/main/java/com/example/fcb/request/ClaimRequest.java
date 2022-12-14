@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ClaimRequest {
+
     public void send(Claim claim) {
     }
 }

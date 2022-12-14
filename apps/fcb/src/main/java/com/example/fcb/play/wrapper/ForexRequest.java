@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ForexRequest implements RequestBody<ForexRequest>{
+public class ForexRequest implements RequestBody<ForexRequest> {
+
     private String id;
     private String message;
 }

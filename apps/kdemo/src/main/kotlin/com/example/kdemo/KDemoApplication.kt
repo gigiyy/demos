@@ -7,6 +7,6 @@ import org.springframework.boot.runApplication
 class KDemoApplication
 
 fun main(args: Array<String>) {
-	runApplication<KDemoApplication>(*args)
+    runApplication<KDemoApplication>(*args)
 }
 
