@@ -3,9 +3,6 @@ package com.example.fcb.claim.service;
 import com.example.fcb.claim.error.ClaimNotFoundException;
 import com.example.fcb.claim.forex.ForexClient;
 import com.example.fcb.claim.forex.ForexRate;
-import com.example.fcb.claim.service.Claim;
-import com.example.fcb.claim.service.ClaimData;
-import com.example.fcb.claim.service.ClaimRepository;
 import com.example.fcb.request.ClaimRequest;
 import org.springframework.stereotype.Service;
 

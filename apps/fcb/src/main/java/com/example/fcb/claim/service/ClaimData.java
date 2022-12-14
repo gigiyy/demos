@@ -1,6 +1,5 @@
 package com.example.fcb.claim.service;
 
-import com.example.fcb.claim.service.Claim;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
