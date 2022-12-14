@@ -1,11 +1,11 @@
-package com.example.fcb.state;
+package com.example.fcb.play.state;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
-public class StateService {
+class StateService {
     private Logger logger = LoggerFactory.getLogger(StateService.class);
 
     public void saveSate(StateCommand command) {

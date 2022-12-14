@@ -1,4 +1,4 @@
-package com.example.fcb.wrapper;
+package com.example.fcb.play.wrapper;
 
 import lombok.Builder;
 import lombok.Data;

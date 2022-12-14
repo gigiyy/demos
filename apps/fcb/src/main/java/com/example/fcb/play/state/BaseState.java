@@ -1,9 +1,9 @@
-package com.example.fcb.state;
+package com.example.fcb.play.state;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class BaseState {
+class BaseState {
     private static final ThreadLocal<Map<String, String>> state = ThreadLocal.withInitial(HashMap::new);
 
     public void setUuid(String uuid) {

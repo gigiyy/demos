@@ -1,4 +1,4 @@
-package com.example.fcb.wrapper;
+package com.example.fcb.play.wrapper;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

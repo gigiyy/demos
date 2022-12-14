@@ -1,4 +1,4 @@
-package com.example.fcb.state;
+package com.example.fcb.play.state;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class StateRequest {
+class StateRequest {
     private String uuid;
     private String name;
     private String content;

@@ -1,4 +1,4 @@
-package com.example.fcb.rate;
+package com.example.fcb.play.stream;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

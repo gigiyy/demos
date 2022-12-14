@@ -1,4 +1,4 @@
-package com.example.fcb.wrapper;
+package com.example.fcb.play.wrapper;
 
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;

@@ -1,5 +1,6 @@
-package com.example.fcb.state;
+package com.example.fcb.play.state;
 
+import com.example.fcb.play.state.StateRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;

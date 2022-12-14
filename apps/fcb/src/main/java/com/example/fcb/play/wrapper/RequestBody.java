@@ -1,4 +1,4 @@
-package com.example.fcb.wrapper;
+package com.example.fcb.play.wrapper;
 
 public interface RequestBody<T extends RequestBody<T>> {
 

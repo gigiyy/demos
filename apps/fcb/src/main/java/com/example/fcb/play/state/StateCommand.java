@@ -1,4 +1,4 @@
-package com.example.fcb.state;
+package com.example.fcb.play.state;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class StateCommand extends BaseState{
+class StateCommand extends BaseState{
 
     private String name;
     private String content;

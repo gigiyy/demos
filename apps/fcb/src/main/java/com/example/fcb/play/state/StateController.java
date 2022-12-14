@@ -1,11 +1,11 @@
-package com.example.fcb.state;
+package com.example.fcb.play.state;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class StateController {
+class StateController {
 
     private StateService stateService;
 
