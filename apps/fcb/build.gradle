@@ -1,6 +1,6 @@
 plugins {
-    id 'org.springframework.boot' version '2.7.1'
-    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'org.springframework.boot' version '2.7.6'
+    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
     id 'java'
 }
 
@@ -13,17 +13,31 @@ repositories {
 }
 
 ext {
-    set('springCloudVersion', "2021.0.3")
+    set('springCloudVersion', "2021.0.5")
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.cloud:spring-cloud-stream'
-    runtimeOnly 'com.h2database:h2'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
     testImplementation 'org.springframework:spring-webflux'
     testImplementation 'io.projectreactor.netty:reactor-netty-http'
+
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    runtimeOnly 'com.h2database:h2'
+
+    implementation 'org.springframework.cloud:spring-cloud-stream'
+    implementation 'org.springframework.boot:spring-boot-starter-amqp'
+    implementation 'org.springframework.cloud:spring-cloud-stream-binder-rabbit'
+    testImplementation 'org.springframework.amqp:spring-rabbit-test'
+    testImplementation("org.springframework.cloud:spring-cloud-stream") {
+        artifact {
+            name = "spring-cloud-stream"
+            extension = "jar"
+            type ="test-jar"
+            classifier = "test-binder"
+        }
+    }
 
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
     testImplementation 'org.springframework.cloud:spring-cloud-starter-contract-stub-runner'

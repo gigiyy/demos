@@ -39,10 +39,7 @@ public class ClaimService {
             throw new ClaimNotFoundException(
                 String.format("Claim message with id %s not found", id));
         }
-        found.map((Claim claim) -> {
-            claimRequest.send(claim);
-            return null;
-        });
+        found.ifPresent(claimRequest::send);
     }
 
 }

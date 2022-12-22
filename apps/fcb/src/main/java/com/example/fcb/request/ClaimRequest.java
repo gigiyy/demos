@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class ClaimRequest {
 
-    public void send(Claim claim) {
+    public SendResult send(Claim claim) {
+        return new SendResult();
     }
 }

@@ -1,7 +1,24 @@
 spring:
   application:
     name: FCB Demo
+  cloud:
+    function:
+      definition: uppercase;sendClaim;display
+    stream:
+      bindings:
+        sendClaim-in-0:
+          group: fcbDemo
+          destination: claim
+        uppercase-in-0:
+          group: fcbDemo
+          destination: string-process-input
+        uppercase-out-0:
+          destination: string-process-output
+        display-in-0:
+          group: fcbDemo
+          destination: string-process-output
 
 servers:
   forex:
     url: http://localhost:8081
+
