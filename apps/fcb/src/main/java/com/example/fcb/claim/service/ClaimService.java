@@ -4,7 +4,6 @@ import com.example.fcb.claim.error.ClaimNotFoundException;
 import com.example.fcb.claim.forex.ForexClient;
 import com.example.fcb.claim.forex.ForexRate;
 import com.example.fcb.request.ClaimRequest;
-import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -34,12 +33,11 @@ public class ClaimService {
     }
 
     public void sendClaim(Long id) {
-        Optional<Claim> found = claimRepository.findById(id);
-        if (found.isEmpty()) {
-            throw new ClaimNotFoundException(
-                String.format("Claim message with id %s not found", id));
-        }
-        found.ifPresent(claimRequest::send);
+        claimRepository.findById(id)
+            .ifPresentOrElse(claimRequest::send, () -> {
+                    throw new ClaimNotFoundException(
+                        String.format("Claim message with id %s not found", id));
+                }
+            );
     }
-
 }
