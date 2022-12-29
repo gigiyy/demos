@@ -13,37 +13,40 @@ import org.springframework.cloud.stream.binder.test.TestChannelBinderConfigurati
 import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.context.annotation.Import;
 import org.springframework.messaging.support.GenericMessage;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 @SpringBootTest
 @Import({TestChannelBinderConfiguration.class})
+@DirtiesContext(classMode = ClassMode.BEFORE_EACH_TEST_METHOD)
 class StringProcessorTest {
 
     @Autowired
-    InputDestination uppercase_in_0;
+    InputDestination input;
 
     @Autowired
-    OutputDestination uppercase_out_0;
-
-    @Autowired
-    OutputDestination send_out_0;
+    OutputDestination output;
 
     @Autowired
     StreamBridge streamBridge;
 
     @Test
     void testSendMessage() throws Exception {
-        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(new StringController(streamBridge)).build();
+        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(new StringController(streamBridge))
+            .build();
         mockMvc.perform(post("/messages").content("message sent"))
             .andExpect(status().isAccepted());
 
-        assertThat(send_out_0.receive().getPayload()).isEqualTo("message sent".getBytes());
+        assertThat(output.receive(100, "string-process-input").getPayload())
+            .isEqualTo("message sent".getBytes());
     }
 
     @Test
     void testStringProcessing() {
-        uppercase_in_0.send(new GenericMessage<>("hello".getBytes()));
-        assertThat(uppercase_out_0.receive().getPayload()).isEqualTo("HELLO".getBytes());
+        input.send(new GenericMessage<>("hello"), "string-process-input");
+        assertThat(output.receive(100, "string-process-output").getPayload())
+            .isEqualTo("HELLO".getBytes());
     }
 }

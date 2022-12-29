@@ -19,6 +19,7 @@ spring:
         display-in-0:
           group: fcbDemo
           destination: string-process-output
+      output-bindings: send
 
 servers:
   forex:

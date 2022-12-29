@@ -11,6 +11,8 @@ spring:
         sendClaim-in-0:
           group: fcbDemo
           destination: claim
+        send-out-0:
+          destination: string-process-input
         uppercase-in-0:
           group: fcbDemo
           destination: string-process-input
@@ -19,3 +21,4 @@ spring:
         display-in-0:
           group: fcbDemo
           destination: string-process-output
+      output-bindings: send
