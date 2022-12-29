@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.RestController
 class TodosController {
 
     @GetMapping("/todos")
-    fun todos(): String {
-        return ""
+    fun todos(): Todo {
+        return Todo("id", "todo")
     }
 }
+
+data class Todo(val id: String, val name: String)
