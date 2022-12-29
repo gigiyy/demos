@@ -2,26 +2,24 @@ package com.example.fcb.play;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+@Slf4j
 public class StringProcessor {
-
-    private static final Logger logger = LoggerFactory.getLogger(StringProcessor.class);
 
     @Bean
     public Function<String, String> uppercase() {
         return input -> {
-            logger.info("Got {}", input);
+            log.info("Got {}", input);
             return input.toUpperCase();
         };
     }
 
     @Bean
     public Consumer<String> display() {
-        return input -> logger.info("Received {}", input);
+        return input -> log.info("Received {}", input);
     }
 }
