@@ -55,7 +55,7 @@ dependencyManagement {
     }
 }
 
-tasks.withType(JavaCompile) {
+tasks.withType(JavaCompile).configureEach {
     options.compilerArgs << "-Xlint:unchecked"
 }
 
