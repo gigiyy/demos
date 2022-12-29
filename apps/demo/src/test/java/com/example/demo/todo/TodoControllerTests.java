@@ -7,8 +7,8 @@ import static org.hamcrest.core.Is.is;
 
 import io.restassured.http.ContentType;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
+import java.util.Collections;
 import java.util.List;
-import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,7 +28,7 @@ public class TodoControllerTests {
 
     @Test
     public void get_todos_returns_status_OK() {
-        spyTodoService.setGetAllTodos_returnAllTodos(Lists.emptyList());
+        spyTodoService.setGetAllTodos_returnAllTodos(Collections.emptyList());
         given()
             .when()
             .get("/todos")
