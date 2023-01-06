@@ -1,0 +1,12 @@
+request:
+  method: GET
+  url: /forex/eur
+  headers:
+    Content-Type: application/json
+response:
+  status: 200
+  body:
+    toUsd: 1.2
+    toTwd: 40.3
+  headers:
+    Content-Type: application/json
