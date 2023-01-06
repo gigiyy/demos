@@ -26,13 +26,8 @@ dependencies {
     runtimeOnly("com.h2database:h2")
     runtimeOnly("mysql:mysql-connector-java")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("io.rest-assured:spring-mock-mvc-kotlin-extensions:5.3.0")
-    testImplementation("io.rest-assured:spring-mock-mvc:5.3.0")
-    testImplementation("io.rest-assured:rest-assured-all:5.3.0")
-    testImplementation("io.rest-assured:rest-assured:5.3.0")
-    testImplementation("io.rest-assured:json-path:5.3.0")
-    testImplementation("io.rest-assured:xml-path:5.3.0")
-    implementation("com.sun.xml.bind:jaxb-osgi:4.0.1")
+    testImplementation("io.rest-assured:spring-mock-mvc-kotlin-extensions")
+    testImplementation("io.rest-assured:spring-mock-mvc")
 }
 
 tasks.withType<Test> {
