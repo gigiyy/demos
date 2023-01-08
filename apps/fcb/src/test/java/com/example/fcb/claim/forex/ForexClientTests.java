@@ -22,7 +22,7 @@ public class ForexClientTests {
 
     @Test
     public void getForexRate_shouldReturnRates() {
-        ForexRate rate = forexClient.getRateFor("eur");
+        ForexRate rate = forexClient.getRateFor("usd");
         assertThat(rate.getToTwd()).isEqualTo(new BigDecimal("40.3"));
     }
 

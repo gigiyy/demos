@@ -13,7 +13,7 @@ public class RateController {
         if ("EUR".equalsIgnoreCase(currency)) {
             return Rate.builder()
                 .currency("EUR")
-                .toUsd(new BigDecimal("1.20"))
+                .toUsd(new BigDecimal("1.40"))
                 .toTwd(new BigDecimal("40.3"))
                 .build();
         } else {

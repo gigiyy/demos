@@ -3,6 +3,9 @@ request:
   url: /forex/eur
   headers:
     Content-Type: application/json
+  matchers:
+    url:
+      regex: /forex/[a-zA-Z]{3}
 response:
   status: 200
   body:
@@ -10,3 +13,11 @@ response:
     toTwd: 40.3
   headers:
     Content-Type: application/json
+  matchers:
+    body:
+      - path: $.toUsd
+        type: by_regex
+        predefined: number
+      - path: $.toTwd
+        type: by_regex
+        predefined: number
