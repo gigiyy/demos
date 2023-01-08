@@ -9,12 +9,16 @@ request:
 response:
   status: 200
   body:
+    currency: "{{{ request.path.1.toUpperCase }}}"
     toUsd: 1.2
     toTwd: 40.3
   headers:
     Content-Type: application/json
   matchers:
     body:
+      - path: $.currency
+        type: by_regex
+        value: "[A-Z]{3}"
       - path: $.toUsd
         type: by_regex
         predefined: number
