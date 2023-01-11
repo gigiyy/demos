@@ -33,7 +33,7 @@ public class ClaimsEndpointTests {
     @BeforeEach
     public void before() {
         ClaimExceptionHandler claimExceptionHandler = new ClaimExceptionHandler();
-        client = MockMvcWebTestClient.bindToController(claimController, claimExceptionHandler)
+        client = WebTestClient.bindToController(claimController, claimExceptionHandler)
             .build();
     }
 
