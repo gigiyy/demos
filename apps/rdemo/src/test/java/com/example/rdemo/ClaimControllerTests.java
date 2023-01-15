@@ -46,7 +46,8 @@ public class ClaimControllerTests {
         Claim data = new Claim(null, "XX", "YYY", "message");
         client.post().uri("/claims").bodyValue(data)
                 .exchange()
-                .expectStatus().isBadRequest();
+                .expectStatus().isBadRequest()
+                .expectBody().jsonPath("$.sender").isEqualTo("sender is too short");
     }
 }
 

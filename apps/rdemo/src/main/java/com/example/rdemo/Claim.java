@@ -17,10 +17,10 @@ public class Claim {
 
     @Id
     private Long id;
-    @Size(min = 4)
+    @Size(min = 4, message = "sender is too short")
     private String sender;
-    @Size(min = 4)
+    @Size(min = 4, message = "receiver is too short")
     private String receiver;
-    @NotEmpty
+    @NotEmpty(message = "message can't be empty")
     private String message;
 }
