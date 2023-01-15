@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/claims")
 public class ClaimController {
@@ -23,7 +25,7 @@ public class ClaimController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    Mono<Claim> submitClaim(@RequestBody Claim claimData) {
+    Mono<Claim> submitClaim(@Valid @RequestBody Claim claimData) {
         return claimRepository.save(claimData);
     }
 
