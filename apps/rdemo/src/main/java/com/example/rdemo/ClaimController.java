@@ -38,8 +38,8 @@ public class ClaimController {
     @ExceptionHandler(WebExchangeBindException.class)
     Mono<Map<String, String>> handleValidationException(WebExchangeBindException ex) {
         Map<String, String> errors = new HashMap<>();
-        ex.getBindingResult().getAllErrors().forEach(error -> {
-            String field = ((FieldError) error).getField();
+        ex.getBindingResult().getFieldErrors().forEach(error -> {
+            String field = error.getField();
             String message = error.getDefaultMessage();
             errors.put(field, message);
         });
