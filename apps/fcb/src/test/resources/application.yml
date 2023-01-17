@@ -2,6 +2,11 @@ servers:
   forex:
     url: http://localhost:8082
 
+value:
+  int-value: 10
+  string: hello
+  string-method: world
+
 spring:
   cloud:
     function:
