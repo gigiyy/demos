@@ -7,7 +7,7 @@ import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.example.fcb.claim.service.Claim;
+import com.example.fcb.claim.service.ClaimEntity;
 import com.example.fcb.claim.service.ClaimData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,7 +23,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Mono;
 
-@ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureWireMock(port = 8082)
 public class ClaimsEndToEndTests {
@@ -43,7 +42,7 @@ public class ClaimsEndToEndTests {
 
     @Test
     public void submitClaimsShouldSaveData() {
-        ClaimData data = new ClaimData("XXXXXX", "YYYYYY", "the claim amount is 2000USD!");
+        ClaimData data = new ClaimData("123456", "XXXXXX", "YYYYYY", "the claim amount is 2000USD!");
 
         client.post().uri("/claims").body(Mono.just(data), ClaimData.class)
             .exchange()
@@ -53,10 +52,10 @@ public class ClaimsEndToEndTests {
 
     @Test
     public void submitClaimsWithRestTemplateShouldSaveData() {
-        ClaimData data = new ClaimData("XXXXXX", "YYYYYY", "the claim amount is 2000USD!");
+        ClaimData data = new ClaimData("123456","XXXXXX", "YYYYYY", "the claim amount is 2000USD!");
 
-        ResponseEntity<Claim> result = restTemplate.postForEntity(url + "/claims", data,
-            Claim.class);
+        ResponseEntity<ClaimEntity> result = restTemplate.postForEntity(url + "/claims", data,
+            ClaimEntity.class);
 
         assertEquals(result.getStatusCode(), HttpStatus.CREATED);
         assertTrue(result.getBody().getId() > 0);

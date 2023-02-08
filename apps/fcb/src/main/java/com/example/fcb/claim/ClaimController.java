@@ -1,6 +1,6 @@
 package com.example.fcb.claim;
 
-import com.example.fcb.claim.service.Claim;
+import com.example.fcb.claim.service.ClaimEntity;
 import com.example.fcb.claim.service.ClaimData;
 import com.example.fcb.claim.service.ClaimService;
 import org.springframework.http.HttpStatus;
@@ -31,7 +31,7 @@ public class ClaimController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    Claim submitClaim(@RequestBody ClaimData claimData) {
+    ClaimEntity submitClaim(@RequestBody ClaimData claimData) {
         return service.saveClaimData(claimData);
     }
 

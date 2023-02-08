@@ -28,7 +28,7 @@ public class ClaimService {
         return ClaimData.builder().sender("FCB").receiver("MIZUHO").message(message).build();
     }
 
-    public Claim saveClaimData(ClaimData claimData) {
+    public ClaimEntity saveClaimData(ClaimData claimData) {
         return claimRepository.save(claimData.toClaim());
     }
 

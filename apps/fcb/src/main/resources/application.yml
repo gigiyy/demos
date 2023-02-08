@@ -25,3 +25,7 @@ servers:
   forex:
     url: http://localhost:8081
 
+value:
+  int-value: 100
+  string: hello
+  string-method: fcb

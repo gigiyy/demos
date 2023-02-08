@@ -13,7 +13,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.example.fcb.claim.error.ClaimExceptionHandler;
 import com.example.fcb.claim.error.ClaimNotFoundException;
-import com.example.fcb.claim.service.Claim;
+import com.example.fcb.claim.service.ClaimEntity;
 import com.example.fcb.claim.service.ClaimData;
 import com.example.fcb.claim.service.ClaimRepository;
 import com.example.fcb.claim.service.ClaimService;
@@ -32,7 +32,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 @ExtendWith(MockitoExtension.class)
-public class ClaimControllerTests {
+public class ClaimEntityControllerTests {
 
     @InjectMocks
     ClaimService service;
@@ -52,9 +52,9 @@ public class ClaimControllerTests {
 
     @Test
     public void submitClaimShouldCallRepositorySaveAndReturnStatusOk() throws Exception {
-        ClaimData data = new ClaimData("XXXXXX", "YYYYYY", "the claim amount is 2000USD!");
+        ClaimData data = new ClaimData("123456", "XXXXXX", "YYYYYY", "the claim amount is 2000USD!");
         String json = new ObjectMapper().writeValueAsString(data);
-        when(claimRepository.save(any())).thenReturn(new Claim(1L, "XXXXXX", "YYYYYY", "message"));
+        when(claimRepository.save(any())).thenReturn(new ClaimEntity(1L, "123456","XXXXXX", "YYYYYY", "message"));
 
         mockMvc.perform(post("/claims")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
@@ -62,7 +62,7 @@ public class ClaimControllerTests {
             .andExpect(status().isCreated())
             .andExpect(jsonPath("$.id").isNumber());
 
-        ArgumentCaptor<Claim> entity = ArgumentCaptor.forClass(Claim.class);
+        ArgumentCaptor<ClaimEntity> entity = ArgumentCaptor.forClass(ClaimEntity.class);
         verify(claimRepository).save(entity.capture());
         assertEquals("XXXXXX", entity.getValue().getSender());
     }
@@ -70,13 +70,13 @@ public class ClaimControllerTests {
     @Test
     public void sendClaimMessageShouldFindClaimAndInitiateClaimRequestThenReturnStatusOk()
         throws Exception {
-        Claim claim = new Claim(100L, "FCBFCB", "SYSTEX", "claim message content");
+        ClaimEntity claim = new ClaimEntity(100L, "123456", "FCBFCB", "SYSTEX", "claim message content");
         when(claimRepository.findById(100L)).thenReturn(Optional.of(claim));
 
         mockMvc.perform(put("/claims/100/send"))
             .andExpect(status().isOk());
 
-        ArgumentCaptor<Claim> entity = ArgumentCaptor.forClass(Claim.class);
+        ArgumentCaptor<ClaimEntity> entity = ArgumentCaptor.forClass(ClaimEntity.class);
         verify(claimRequest).send(entity.capture());
         assertEquals(100L, entity.getValue().getId());
     }
