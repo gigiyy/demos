@@ -27,3 +27,9 @@ spring:
           group: fcbDemo
           destination: string-process-output
       output-bindings: send
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: guixinz
+  jpa:
+    hibernate:
+      ddl-auto: update
