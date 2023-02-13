@@ -10,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Optional;
 
 import static net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson;
@@ -22,6 +23,9 @@ class NumberRepositoryTest {
 
     @Autowired
     NumberRepository subject;
+
+    @Autowired
+    AnotherRepository anotherRepository;
 
     @Test
 //    @Transactional
@@ -56,5 +60,10 @@ class NumberRepositoryTest {
         });
 
         logger.info("saved {}", saved);
+    }
+
+    @Test
+    public void testSequence() {
+        anotherRepository.save(AnotherEntity.builder().name("someone").birthday(LocalDate.now()).build());
     }
 }
