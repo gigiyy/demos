@@ -1,3 +1,5 @@
+[![Java CI with Gradle](https://github.com/gigiyy/demos/actions/workflows/gradle.yml/badge.svg)](https://github.com/gigiyy/demos/actions/workflows/gradle.yml)
+
 # Demo projects
 A multi-application repository for my Spring Boot with Gradle Demo projects.
 
