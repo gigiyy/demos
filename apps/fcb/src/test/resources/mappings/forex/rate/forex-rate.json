@@ -1,0 +1,21 @@
+{
+  "id" : "081a932f-447d-4446-a393-e75a6c4c8a0c",
+  "request" : {
+    "urlPathPattern" : "/forex/[a-zA-Z]{3}",
+    "method" : "GET",
+    "headers" : {
+      "Content-Type" : {
+        "equalTo" : "application/json"
+      }
+    }
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\"currency\":\"{{{ request.path.1.toUpperCase }}}\",\"toUsd\":1.2,\"toTwd\":40.3}",
+    "headers" : {
+      "Content-Type" : "application/json"
+    },
+    "transformers" : [ "response-template", "spring-cloud-contract" ]
+  },
+  "uuid" : "081a932f-447d-4446-a393-e75a6c4c8a0c"
+}
